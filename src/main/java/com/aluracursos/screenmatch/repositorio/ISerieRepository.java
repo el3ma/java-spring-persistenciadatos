@@ -18,6 +18,8 @@ public interface ISerieRepository extends JpaRepository<Serie, Long> {
     List<Serie> seriesPorTemporadaYEvaluacion(int totalTemporadas, Double evaluacion);
     @Query("SELECT e FROM Serie s JOIN s.episodios e WHERE e.titulo ILIKE %:nombreEpisodio%")
     List<Episodio> episodiosPorNombre(String nombreEpisodio);
-    @Query("SELECT e FROM Serie s JOIN s.episodios e WHERE s = :serie ORDER BY e.evaluacion DESC LIMIT 5")
+    @Query("SELECT e FROM Serie s JOIN s.episodios e WHERE s = :serie ORDER BY e.evaluacion DESC LIMIT 5 ")
     List<Episodio> top5Episodios(Serie serie);
+    @Query("SELECT s FROM Serie s " + "JOIN s.episodios e " + "GROUP BY s " + "ORDER BY MAX(e.fechaDeLanzamiento) DESC LIMIT 5")
+    List<Serie> lanzamientosMasRecientes();
 }
